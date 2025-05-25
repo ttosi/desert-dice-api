@@ -1,9 +1,8 @@
 const sqlite = require("sqlite3");
-
-console.log(__dirname);
+require("dotenv").config();
 
 // use .env
-const filename = `${__dirname}/desert-dice.db`;
+const filename = `${__dirname}/${process.env.DB_FILENAME}`;
 
 const fetchAll = async (sql, params) => {
   const db = await new sqlite.Database(filename);

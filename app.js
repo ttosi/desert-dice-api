@@ -3,24 +3,33 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const { authorizeRequest } = require("./authorization");
 const products = require("./api/products");
 const customers = require("./api/customers");
 
+const router = express.Router();
 const app = express();
 require("dotenv").config();
 
-// const categories = async () => {
-//   const q = await fetchAll("SELECT * FROM productCategory WHERE isActive = 1;");
-//   console.log(q);
+// var corsOptions = {
+//   origin: "http://localhost:5173",
+//   optionsSuccessStatus: 200
 // };
-// categories();
 
+app.use(router);
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
 
 app.use("/api/products/", products);
 app.use("/api/customers/", customers);
+
+router.use(async (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  await authorizeRequest(res, token);
+  next();
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
