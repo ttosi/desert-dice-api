@@ -6,6 +6,7 @@ const cors = require("cors");
 const { authorizeRequest } = require("./authorization");
 const products = require("./api/products");
 const customers = require("./api/customers");
+const lookups = require("./api/lookups");
 
 const router = express.Router();
 const app = express();
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 
 app.use("/api/products/", products);
 app.use("/api/customers/", customers);
+app.use("/api/lookups/", lookups);
 
 router.use(async (req, res, next) => {
   const authHeader = req.headers["authorization"];

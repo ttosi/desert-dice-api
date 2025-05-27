@@ -1,28 +1,32 @@
 const sqlite = require("sqlite3");
 require("dotenv").config();
 
-// use .env
-const filename = `${__dirname}/${process.env.DB_FILENAME}`;
-
-const fetchAll = async (sql, params) => {
-  const db = await new sqlite.Database(filename);
-  return new Promise((resolve, reject) => {
-    db.all(sql, params, (err, rows) => {
-      if (err) reject(err);
-      resolve(rows);
+const database = {
+  db: new sqlite.Database(`${__dirname}/${process.env.DB_FILENAME}`),
+  fetchAll: async (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+      database.db.all(sql, params, (err, rows) => {
+        if (err) reject(err);
+        resolve(rows);
+      });
     });
-  });
+  },
+  fetchOne: async (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+      database.db.get(sql, params, (err, row) => {
+        if (err) reject(err);
+        resolve(row);
+      });
+    });
+  },
 };
 
-const fetchOne = async (sql, params) => {
-  const db = await new sqlite.Database(filename);
-  return new Promise((resolve, reject) => {
-    db.get(sql, params, (err, rows) => {
-      if (err) reject(err);
-      console.log(rows);
-      resolve(rows ? rows[0] : null);
-    });
+process.on("SIGINT", () => {
+  database.db.close((err) => {
+    if (err) console.error("Error closing SQLite DB:", err);
+    else console.log("\ndatabase closed.");
+    process.exit();
   });
-};
+});
 
-module.exports = { fetchAll, fetchOne };
+module.exports = database;
