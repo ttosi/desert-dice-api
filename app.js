@@ -3,10 +3,10 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const { authorizeRequest } = require("./authorization");
-const products = require("./api/products");
-const customers = require("./api/customers");
-const lookups = require("./api/lookups");
+const { authorizeRequest } = require("./src/authorization");
+const products = require("./src/api/products");
+const customers = require("./src/api/customers");
+const lookups = require("./src/api/lookups");
 
 const router = express.Router();
 const app = express();
@@ -16,6 +16,8 @@ require("dotenv").config();
 //   origin: "http://localhost:5173",
 //   optionsSuccessStatus: 200
 // };
+
+app.use("/images", express.static(`${__dirname}/public/images`));
 
 app.use(router);
 app.use(cors());

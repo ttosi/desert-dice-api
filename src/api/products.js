@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
+
   res.json(transformProducts(rows));
 });
 
@@ -33,6 +34,7 @@ router.get("/featured", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
+
   res.json(transformProducts(rows));
 });
 
@@ -50,6 +52,7 @@ router.get("/latest", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
+
   res.json(transformProducts(rows));
 });
 
@@ -67,6 +70,7 @@ router.get("/:id", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
+
   res.json(transformProducts(rows)[0]);
 });
 
