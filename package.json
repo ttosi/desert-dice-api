@@ -16,7 +16,9 @@
     "eslint": "^9.27.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "image-size": "^2.0.2",
     "jsonwebtoken": "^9.0.2",
+    "sharp": "^0.34.2",
     "sqlite3": "^5.1.7"
   }
 }

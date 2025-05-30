@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="desert-dice.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1797"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="2" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="productImage" custom_title="0" dock_id="1" table="4,12:mainproductImage"/><dock_state state="000000ff00000000fd00000001000000020000055400000300fc0100000001fc00000000000005540000010c00fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000010c00fffffffb000000160064006f0063006b00420072006f00770073006500320000000000ffffffff0000000000000000000005540000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="customer" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="26"/><column index="2" value="45"/><column index="3" value="45"/><column index="4" value="60"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="product" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="3" mode="1"/></sort><column_widths><column index="1" value="26"/><column index="2" value="142"/><column index="3" value="162"/><column index="4" value="476"/><column index="5" value="68"/><column index="6" value="74"/><column index="7" value="67"/><column index="8" value="171"/><column index="9" value="60"/><column index="10" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productImage" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="26"/><column index="2" value="76"/><column index="3" value="195"/><column index="4" value="74"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="101"/><column index="2" value="30"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">select * from product;
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="desert-dice.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1797"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="productCategory" custom_title="0" dock_id="1" table="4,15:mainproductCategory"/><dock_state state="000000ff00000000fd0000000100000002000004ad00000300fc0100000001fc00000000000004ad0000010c00fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000010c00fffffffb000000160064006f0063006b00420072006f00770073006500320000000000ffffffff0000000000000000000004ad0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="customer" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="26"/><column index="2" value="45"/><column index="3" value="45"/><column index="4" value="60"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="product" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="3" mode="1"/></sort><column_widths><column index="1" value="46"/><column index="2" value="142"/><column index="3" value="162"/><column index="4" value="495"/><column index="5" value="68"/><column index="6" value="74"/><column index="7" value="67"/><column index="8" value="77"/><column index="9" value="156"/><column index="10" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productCategory" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="2" mode="0"/></sort><column_widths><column index="1" value="26"/><column index="2" value="106"/><column index="3" value="93"/><column index="4" value="62"/><column index="5" value="74"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productImage" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="26"/><column index="2" value="76"/><column index="3" value="195"/><column index="4" value="74"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="101"/><column index="2" value="30"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">select * from product;
 
--- insert into product (name, productCategoryId, description, featured, cost, discount, created, sold) values
--- ('Fall Setting', 1, 'A set to showcase fall vibes', 1, 35.00, 15.0, datetime('now'), null);
+insert into product (name, productCategoryId, description, featured, cost, discount, created, sold) values
+('Domino Double 5', 1, 'A elegant black &amp; gold double five necklace.', 3, 2500, 0, datetime('now'), null);
 
 SELECT * FROM product;
 
@@ -11,9 +11,45 @@ SELECT * FROM product WHERE sold IS NULL ORDER BY created DESC LIMIT 3;
 
 select * from productImage;
 
+
+
+
+-- insert into productCategory (code, name, isActive, sequence) values ('dice', 'Dice', 1, 1);
+-- insert into productCategory (code, name, isActive, sequence) values ('dicecases', 'Dice Cases', 1, 1);
+-- insert into productCategory (code, name, isActive, sequence) values ('jewelry', 'Jewelry', 1, 1);
+-- insert into productCategory (code, name, isActive, sequence) values ('molds', 'Molds', 0, 1);
+-- insert into productCategory (code, name, isActive, sequence) values ('masters', 'Masters', 0, 1);
+
+
+select * from productImage;
+-- delete from productImage;
+
+insert into productImage (productId, path, sequence) values (6, 'jewelry/domino5x5.png', 1);
+-- insert into productImage (productId, path, sequence) values (4, 'dice/candy2.png', 2);
+-- insert into productImage (productId, path, sequence) values (4, 'dice/candy3.png', 3);
+-- 
+-- insert into productImage (productId, path, sequence) values (5, 'dice/space1.png', 1);
+-- insert into productImage (productId, path, sequence) values (5, 'dice/space2.png', 1);
+-- 
+-- insert into productImage (productId, path, sequence) values (3, 'dice/fall1.png', 1);
+-- insert into productImage (productId, path, sequence) values (3, 'dice/fall2.png', 2);
+-- insert into productImage (productId, path, sequence) values (3, 'dice/fall3.png', 3);
+-- 
+-- insert into productImage (productId, path, sequence) values (2, 'dice/spring1.png', 1);
+-- insert into productImage (productId, path, sequence) values (2, 'dice/spring2.png', 2);
+-- 
+-- insert into productImage (productId, path, sequence) values (1, 'dice/purple1.png', 1);
+-- insert into productImage (productId, path, sequence) values (1, 'dice/purple2.png', 2);
+
+
+
+
+
+
+
 -- update lookups set key = 'productcategory';
 
-update product set cost = 0, discount = 0;
+-- update product set cost = 0, discount = 0;
 
 select * from lookups;
 
@@ -56,4 +92,58 @@ WHERE p.id IN (
   LIMIT 3
 )
 ORDER BY p.created DESC;
+
+
+
+SELECT p.id, p.name, p.description, p.cost / 100.0 as cost, p.discount, pi.path AS images
+ FROM product p
+ LEFT JOIN productImage pi ON p.id = pi.productId
+ WHERE p.id IN (
+   SELECT p.id FROM product p
+   JOIN productCategory pc ON pc.id = p.productCategoryId
+   WHERE p.sold IS NULL AND pc.key = 'dice'
+ )
+ ORDER BY p.created ASC;
+ 
+ 
+ SELECT p.id, p.name, p.description, p.cost / 100.0 as cost, p.discount, pi.path AS images
+ FROM product p
+ LEFT JOIN productImage pi ON p.id = pi.productId
+ WHERE p.id IN (
+   SELECT p.id FROM product p
+   JOIN productCategory pc ON pc.id = p.productCategoryId
+   WHERE p.sold IS NULL AND pc.key = 'jewelry'
+ )
+ ORDER BY p.created DESC;
+ 
+ 
+ SELECT p.id, p.name, p.description, p.cost / 100.0 as cost, p.discount, pi.path AS images
+     FROM product p
+     LEFT JOIN productImage pi ON p.id = pi.productId
+     WHERE p.id IN (
+       SELECT p.id FROM product p
+       JOIN productCategory pc ON pc.id = p.productCategoryId
+       WHERE p.sold IS NULL AND pc.category = 'jewelry'
+     )
+     ORDER BY p.created DESC;
+	 
+
+	 
+-- { id: 1, code: 'dice', name: 'Dice', isActive: true, sequence: 1 },
+-- { id: 2, code: 'collections', name: 'Collections', isActive: false, sequence: 2 },
+-- { id: 3, code: 'dicecases', name: 'Dice Cases', isActive: true, sequence: 3 },
+-- { id: 4, code: 'jewelry', name: 'Jewelry', isActive: true, sequence: 4 },
+-- { id: 5, code: 'masters', name: 'Masters', isActive: false, sequence: 5 },
+-- { id: 6, code: 'molds', name: 'Molds', isActive: false, sequence: 6 },
+
+-- insert into productCategory (category, name, isActive, sequence) values ('dice', 'Dice', 1, 1);
+-- insert into productCategory (category, name, isActive, sequence) values ('collections', 'Collections', 0, 2);
+-- insert into productCategory (category, name, isActive, sequence) values ('', '', 1, 1);
+-- insert into productCategory (category, name, isActive, sequence) values ('', '', 1, 1);
+-- insert into productCategory (category, name, isActive, sequence) values ('', '', 1, 1);
+-- insert into productCategory (category, name, isActive, sequence) values ('', '', 1, 1);
+
+SELECT route, name FROM productCategory WHERE isActive = 1 ORDER BY sequence ASC;
+
+
 </sql><current_tab id="0"/></tab_sql></sqlb_project>
