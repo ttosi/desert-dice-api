@@ -6,7 +6,7 @@ const authorizeRequest = async (res, token) => {
   if (!token) return;
 
   const hash = jwt.sign(token, process.env.SECRET);
-  if (hash !== process.env.TOKEN_HASH) {
+  if (hash !== process.env.UI_TOKEN_HASH) {
     res.status(401);
     return;
   }
