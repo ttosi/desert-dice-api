@@ -9,8 +9,6 @@ const productSelectColumns = `SELECT
 
 /* GET all available products */
 router.get("/", async (req, res) => {
-  console.time("query");
-
   const rows = await db.fetchAll(
     `${productSelectColumns}
      FROM product p
@@ -27,27 +25,35 @@ router.get("/", async (req, res) => {
   res.json(transformProducts(rows));
 });
 
-/* GET list of active product categories */
+/* GET product categories */
 router.get("/categories", async (req, res) => {
   const rows = await db.fetchAll(
-    `SELECT 
-      parent.id AS id,
-      parent.name AS categoryName,
-      parent.route AS parentRoute,
-      child.id AS subcategoryId,
-      child.name AS subcategoryName,
-      child.route AS subcategoryRoute,
-      child.description AS subcategoryDescription,
-      child.isActive AS subcategoryIsActive,
-      child.sequence AS subcategorySequence
-    FROM productGroup parent
-    LEFT JOIN productGroup child ON child.parentId = parent.id
-    WHERE parent.parentId IS NULL AND parent.isActive = 1
-    ORDER BY parent.sequence, child.sequence;`
+    `SELECT id, route, name, description
+     FROM productCategory WHERE isActive = 1;`
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(transformProductGroup(rows));
+  res.json(rows);
+});
+
+/* GET products by category slug */
+router.get("/category/:category", async (req, res) => {
+  const rows = await db.fetchAll(
+    `${productSelectColumns}
+     FROM product p
+     LEFT JOIN productImage pi ON p.id = pi.productId
+     LEFT JOIN productOption po ON p.id = po.productId
+     WHERE p.id IN (
+       SELECT p.id FROM product p
+       JOIN productCategory pc ON pc.id = p.productCategoryId
+       WHERE p.sold IS NULL AND pc.route = ?
+     )
+     ORDER BY p.created DESC;`,
+    [req.params.category]
+  );
+
+  if (!rows?.length) return res.status(404).end();
+  res.json(transformProducts(rows));
 });
 
 /* GET featured products */
@@ -86,28 +92,6 @@ router.get("/latest", async (req, res) => {
   res.json(transformProducts(rows));
 });
 
-/* GET products by category slug */
-router.get("/category/:category/:subcategory", async (req, res) => {
-  const rows = await db.fetchAll(
-    `${productSelectColumns}
-     FROM product p
-     LEFT JOIN productImage pi ON p.id = pi.productId
-     LEFT JOIN productOption po ON p.id = po.productId
-     WHERE p.id IN (
-       SELECT p.id FROM product p
-       JOIN productCategory pc ON pc.id = p.productCategoryId
-       WHERE p.sold IS NULL AND pc.route = ?
-     )
-     ORDER BY p.created DESC;`,
-    [req.params.category]
-  );
-
-  console.log(req.params);
-
-  if (!rows?.length) return res.status(404).end();
-  res.json(transformProducts(rows));
-});
-
 /* GET product by ID */
 router.get("/:id", async (req, res) => {
   const rows = await db.fetchAll(
@@ -122,8 +106,6 @@ router.get("/:id", async (req, res) => {
      ORDER BY p.created, po.id ASC;`,
     [req.params.id]
   );
-
-  console.log("wwwtttfff");
 
   if (!rows?.length) return res.status(404).end();
   res.json(transformProducts(rows)[0]);
@@ -165,33 +147,6 @@ const transformProducts = (rows) => {
           description: row.description,
           price: row.optionPrice,
           sold: row.sold,
-        });
-      }
-
-      return acc;
-    }, {})
-  );
-};
-
-const transformProductGroup = (rows) => {
-  return Object.values(
-    rows.reduce((acc, row) => {
-      if (!acc[row.id]) {
-        acc[row.id] = {
-          id: row.id,
-          name: row.categoryName,
-          route: row.parentRoute,
-          subcategories: [],
-        };
-      }
-
-      if (row.subcategoryId) {
-        acc[row.id].subcategories.push({
-          id: row.subcategoryId,
-          name: row.subcategoryName,
-          route: row.subcategoryRoute,
-          description: row.subcategoryDescription,
-          isActive: row.subcategoryIsActive,
         });
       }
 
