@@ -3,9 +3,9 @@ const router = express.Router();
 const db = require("../database/database");
 
 const productSelectColumns = `SELECT 
-    p.id, p.name, p.description, p.coverImage, p.price / 100.0 as basePrice,
+    p.id, p.name, p.description AS productDescription, p.coverImage, p.price / 100.0 as basePrice,
     pi.path AS image, p.sold, pi.thumbnail,
-    po.id as optionId, po.code, po.description, po.price / 100.0 as optionPrice, po.sold `;
+    po.id as optionId, po.code, po.description, po.price / 100.0 as optionPrice, po.sold, po.notes `;
 
 /* GET all available products */
 router.get("/", async (req, res) => {
@@ -103,7 +103,7 @@ router.get("/:id", async (req, res) => {
        SELECT id FROM product
        WHERE sold IS NULL AND p.id = ?
      )
-     ORDER BY p.created, po.id ASC;`,
+     ORDER BY p.created, po.sequence ASC;`,
     [req.params.id]
   );
 
@@ -121,7 +121,7 @@ const transformProducts = (rows) => {
         acc[row.id] = {
           id: row.id,
           name: row.name,
-          description: row.description,
+          description: row.productDescription,
           coverImage: row.coverImage,
           price: row.basePrice,
           sold: row.sold,
@@ -147,6 +147,7 @@ const transformProducts = (rows) => {
           description: row.description,
           price: row.optionPrice,
           sold: row.sold,
+          notes: row.notes,
         });
       }
 
