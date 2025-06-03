@@ -2,34 +2,28 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/database");
 
-const productSelectColumns = `SELECT 
-    p.id, p.name, p.description AS productDescription, p.coverImage, p.price / 100.0 as basePrice,
-    pi.path AS image, p.sold, pi.thumbnail,
-    po.id as optionId, po.code, po.description, po.price / 100.0 as optionPrice, po.sold, po.notes `;
-
-/* GET all available products */
+/* GET all products */
 router.get("/", async (req, res) => {
   const rows = await db.fetchAll(
-    `${productSelectColumns}
+    `SELECT
+        p.id, p.name, p.coverImagePath, p.coverPrice, p.isSold, p.created
      FROM product p
-     LEFT JOIN productImage pi ON p.id = pi.productId
-     LEFT JOIN productOption po ON p.id = po.productId
-     WHERE p.id IN (
-       SELECT id FROM product
-       WHERE sold IS NULL
-     )
-     ORDER BY p.created ASC;`
+     JOIN productCategory pc ON pc.id = p.productCategoryId
+     ORDER BY created DESC;`
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(transformProducts(rows));
+  res.json(rows);
 });
 
 /* GET product categories */
 router.get("/categories", async (req, res) => {
   const rows = await db.fetchAll(
-    `SELECT id, route, name, description
-     FROM productCategory WHERE isActive = 1;`
+    `SELECT
+        id, route, name, description
+     FROM productCategory
+     WHERE isActive = 1
+     ORDER BY sequence;`
   );
 
   if (!rows?.length) return res.status(404).end();
@@ -39,71 +33,63 @@ router.get("/categories", async (req, res) => {
 /* GET products by category slug */
 router.get("/category/:category", async (req, res) => {
   const rows = await db.fetchAll(
-    `${productSelectColumns}
+    `SELECT
+        p.id, p.name, p.coverImagePath, p.coverPrice, p.isSold
      FROM product p
-     LEFT JOIN productImage pi ON p.id = pi.productId
-     LEFT JOIN productOption po ON p.id = po.productId
-     WHERE p.id IN (
-       SELECT p.id FROM product p
-       JOIN productCategory pc ON pc.id = p.productCategoryId
-       WHERE p.sold IS NULL AND pc.route = ?
-     )
-     ORDER BY p.created DESC;`,
+     JOIN productCategory pc ON pc.id = p.productCategoryId
+     WHERE NOT p.isSold AND pc.route = ?
+     ORDER BY created DESC;`,
     [req.params.category]
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(transformProducts(rows));
+  res.json(rows);
 });
 
 /* GET featured products */
 router.get("/featured", async (req, res) => {
   const rows = await db.fetchAll(
-    `${productSelectColumns}
+    `SELECT
+        p.id, p.name, p.coverImagePath, p.coverPrice, p.isSold
      FROM product p
-     LEFT JOIN productImage pi ON p.id = pi.productId
-     LEFT JOIN productOption po ON p.id = po.productId
-     WHERE p.id IN (
-       SELECT id FROM product
-       WHERE featured = 1 AND sold IS NULL ORDER BY created DESC LIMIT 3
-     )
-     ORDER BY p.created DESC;`
+     JOIN productCategory pc ON pc.id = p.productCategoryId
+     WHERE NOT p.isSold AND p.isFeatured = 1
+     ORDER BY created DESC
+     LIMIT 3;`
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(transformProducts(rows));
+  res.json(rows);
 });
 
 /* GET 3 most recent products */
 router.get("/latest", async (req, res) => {
   const rows = await db.fetchAll(
-    `${productSelectColumns}
+    `SELECT
+        p.id, p.name, p.coverImagePath, p.coverPrice, p.isSold
      FROM product p
-     LEFT JOIN productImage pi ON p.id = pi.productId
-     LEFT JOIN productOption po ON p.id = po.productId
-     WHERE p.id IN (
-       SELECT id FROM product
-       WHERE sold IS NULL ORDER BY created DESC LIMIT 3
-     )
-     ORDER BY p.created DESC;`
+     JOIN productCategory pc ON pc.id = p.productCategoryId
+     WHERE NOT p.isSold
+     ORDER BY created DESC
+     LIMIT 3;`
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(transformProducts(rows));
+  res.json(rows);
 });
 
 /* GET product by ID */
 router.get("/:id", async (req, res) => {
   const rows = await db.fetchAll(
-    `${productSelectColumns}
+    `SELECT 
+        p.id, p.name AS productName, p.description, p.coverImagePath, p.coverPrice, p.created,
+        po.id AS productOptionId, po.name AS productOptionName, po.price AS optionPrice, po.isSold AS isProductOptionSold, po.notes, po.hasChonk,
+        pi.id as productImageId, pi.path, pi.isThumbnail
      FROM product p
-     LEFT JOIN productImage pi ON p.id = pi.productId
      LEFT JOIN productOption po ON p.id = po.productId
-     WHERE p.id IN (
-       SELECT id FROM product
-       WHERE sold IS NULL AND p.id = ?
-     )
-     ORDER BY p.created, po.sequence ASC;`,
+     LEFT JOIN productImage pi ON p.id = pi.productId
+     WHERE p.id = ?
+     ORDER BY po.sequence, pi.sequence;`,
     [req.params.id]
   );
 
@@ -120,11 +106,10 @@ const transformProducts = (rows) => {
       if (!acc[row.id]) {
         acc[row.id] = {
           id: row.id,
-          name: row.name,
-          description: row.productDescription,
-          coverImage: row.coverImage,
-          price: row.basePrice,
-          sold: row.sold,
+          name: row.productName,
+          description: row.description,
+          coverImagePath: row.coverImagePath,
+          coverPrice: row.coverPrice,
           created: row.created,
           images: [],
           thumbnails: [],
@@ -132,21 +117,21 @@ const transformProducts = (rows) => {
         };
       }
 
-      if (!acc[row.id].images.includes(row.image) && !row.thumbnail) {
-        acc[row.id].images.push(row.image);
+      if (!acc[row.id].images.includes(row.path) && !row.isThumbnail) {
+        acc[row.id].images.push(row.path);
       }
 
-      if (!acc[row.id].thumbnails.includes(row.image) && row.thumbnail) {
-        acc[row.id].thumbnails.push(row.image);
+      if (!acc[row.id].thumbnails.includes(row.path) && row.isThumbnail) {
+        acc[row.id].thumbnails.push(row.path);
       }
 
-      if (!acc[row.id].options.find((o) => o.id === row.optionId)) {
+      if (!acc[row.id].options.find((o) => o.id === row.productOptionId)) {
         acc[row.id].options.push({
-          id: row.optionId,
-          code: row.code,
-          description: row.description,
+          id: row.productOptionId,
+          name: row.productOptionName,
           price: row.optionPrice,
-          sold: row.sold,
+          isSold: row.isProductOptionSold,
+          hasChonk: row.hasChonk,
           notes: row.notes,
         });
       }

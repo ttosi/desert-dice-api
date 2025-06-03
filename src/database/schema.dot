@@ -252,12 +252,6 @@ productImage [label=<
             
 
                 <TR>
-                    <TD PORT="productOptionId_to">&nbsp;</TD>
-                    <TD PORT="productOptionId_from">productOptionId</TD>
-                </TR>
-            
-
-                <TR>
                     <TD PORT="path_to">&nbsp;</TD>
                     <TD PORT="path_from">path</TD>
                 </TR>
@@ -333,30 +327,10 @@ productOption [label=<
             </TABLE>
         >];
         
-productOption_productType [label=<
+productTag [label=<
             <TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
                 <TR>
-                    <TD COLSPAN="2"><B>productOption_productType</B></TD>
-                </TR>
-            
-                <TR>
-                    <TD PORT="productOptionId_to">🔑</TD>
-                    <TD PORT="productOptionId_from">productOptionId</TD>
-                </TR>
-            
-
-                <TR>
-                    <TD PORT="productTypeId_to">🔑</TD>
-                    <TD PORT="productTypeId_from">productTypeId</TD>
-                </TR>
-            
-            </TABLE>
-        >];
-        
-productType [label=<
-            <TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
-                <TR>
-                    <TD COLSPAN="2"><B>productType</B></TD>
+                    <TD COLSPAN="2"><B>productTag</B></TD>
                 </TR>
             
                 <TR>
@@ -370,16 +344,42 @@ productType [label=<
                     <TD PORT="code_from">code</TD>
                 </TR>
             
+
+                <TR>
+                    <TD PORT="name_to">&nbsp;</TD>
+                    <TD PORT="name_from">name</TD>
+                </TR>
+            
             </TABLE>
         >];
         
-product:productCategoryId_from:e -> productCategory:id_to:w
+product_productTag [label=<
+            <TABLE BORDER="0" CELLSPACING="0" CELLBORDER="1">
+                <TR>
+                    <TD COLSPAN="2"><B>product_productTag</B></TD>
+                </TR>
+            
+                <TR>
+                    <TD PORT="productId_to">🔑</TD>
+                    <TD PORT="productId_from">productId</TD>
+                </TR>
+            
+
+                <TR>
+                    <TD PORT="tagId_to">🔑</TD>
+                    <TD PORT="tagId_from">tagId</TD>
+                </TR>
+            
+            </TABLE>
+        >];
+        
+product_productTag:tagId_from:e -> productTag:id_to:w
+product_productTag:productId_from:e -> product:id_to:w
 customerOrder:productOptionId_from:e -> productOption:id_to:w
 customerOrder:customerId_from:e -> customer:id_to:w
-productImage:productId_from:e -> product:id_to:w
-customerAddress:customerId_from:e -> customer:id_to:w
-productOption_productType:productTypeId_from:e -> productType:id_to:w
-productOption_productType:productOptionId_from:e -> productOption:id_to:w
 productOption:productId_from:e -> product:id_to:w
+product:productCategoryId_from:e -> productCategory:id_to:w
+customerAddress:customerId_from:e -> customer:id_to:w
+productImage:productId_from:e -> product:id_to:w
 
 }

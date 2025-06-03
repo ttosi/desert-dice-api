@@ -70,6 +70,6 @@ const createThumbnail = async (srcFilePath) => {
 };
 
 // Usage:
-processFiles("../images/grave_bloom/", async (filePath) => {
+processFiles("../images/ocean_sky/", async (filePath) => {
   // console.log("Processing file:", filePath);
 });
