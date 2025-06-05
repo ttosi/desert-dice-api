@@ -2,85 +2,116 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "customer" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"email"	TEXT NOT NULL,
-	"firstName"	TEXT,
-	"lastName"	TEXT,
-	"created"	TEXT,
+	"first_name"	TEXT,
+	"last_name"	TEXT,
+	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
-CREATE TABLE IF NOT EXISTS "customerAddress" (
+CREATE TABLE IF NOT EXISTS "customer_address" (
 	"id"	INTEGER NOT NULL,
-	"customerId"	INTEGER NOT NULL,
+	"customer_id"	INTEGER NOT NULL,
 	"address1"	TEXT,
 	"address2"	TEXT,
 	"city"	TEXT,
 	"state"	TEXT,
 	"zip"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("customerId") REFERENCES "customer"("id")
+	FOREIGN KEY("customer_id") REFERENCES "customer"("id")
 );
-CREATE TABLE IF NOT EXISTS "customerOrder" (
+CREATE TABLE IF NOT EXISTS "customer_order" (
 	"id"	INTEGER NOT NULL,
-	"customerId"	INTEGER NOT NULL,
-	"orderNumber"	INTEGER,
-	"productOptionId"	INTEGER,
+	"customer_id"	INTEGER NOT NULL,
+	"option_id"	INTEGER,
+	"order_number"	INTEGER,
+	"shipped_at"	TEXT,
+	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("customerId") REFERENCES "customer"("id"),
-	FOREIGN KEY("productOptionId") REFERENCES "productOption"("id")
+	FOREIGN KEY("customer_id") REFERENCES "customer"("id"),
+	FOREIGN KEY("option_id") REFERENCES "product_option"("id")
 );
 CREATE TABLE IF NOT EXISTS "product" (
 	"id"	INTEGER NOT NULL UNIQUE,
-	"productCategoryId"	NUMERIC NOT NULL,
+	"category_id"	INTEGER NOT NULL,
+	"collection_id"	INTEGER,
 	"name"	TEXT,
 	"description"	TEXT,
-	"coverImagePath"	TEXT,
-	"coverPrice"	INTEGER,
-	"isFeatured"	INTEGER,
-	"isSold"	INTEGER,
-	"created"	TEXT,
+	"cover_image_path"	TEXT,
+	"cover_price"	INTEGER,
+	"is_featured"	INTEGER,
+	"is_sold"	INTEGER,
+	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("productCategoryId") REFERENCES "productCategory"("id")
+	FOREIGN KEY("category_id") REFERENCES "product_category"("id"),
+	FOREIGN KEY("collection_id") REFERENCES "product_collection"("id")
 );
-CREATE TABLE IF NOT EXISTS "productCategory" (
+CREATE TABLE IF NOT EXISTS "product_category" (
 	"id"	INTEGER NOT NULL,
 	"route"	TEXT,
 	"name"	TEXT,
 	"description"	TEXT,
-	"isActive"	INTEGER,
+	"is_active"	INTEGER,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
-CREATE TABLE IF NOT EXISTS "productImage" (
+CREATE TABLE IF NOT EXISTS "product_collection" (
+	"id"	INTEGER NOT NULL,
+	"name"	TEXT,
+	"description"	TEXT,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "product_image" (
 	"id"	INTEGER NOT NULL UNIQUE,
-	"productId"	INTEGER NOT NULL,
-	"productOptionId"	INTEGER,
+	"product_id"	INTEGER NOT NULL,
 	"path"	TEXT,
-	"isThumbnail"	INTEGER,
+	"is_thumbnail"	INTEGER,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("productOptionId") REFERENCES "productOption"("id")
+	FOREIGN KEY("product_id") REFERENCES "product"("id")
 );
-CREATE TABLE IF NOT EXISTS "productOption" (
+CREATE TABLE IF NOT EXISTS "product_option" (
 	"id"	INTEGER NOT NULL,
-	"productId"	INTEGER,
+	"product_id"	INTEGER,
 	"name"	TEXT,
 	"price"	INTEGER,
 	"notes"	TEXT,
-	"hasChonk"	INTEGER,
-	"isSold"	INTEGER,
+	"has_chonk"	INTEGER,
+	"is_sold"	INTEGER,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("productId") REFERENCES "product"("id")
+	FOREIGN KEY("product_id") REFERENCES "product"("id")
 );
-CREATE TABLE IF NOT EXISTS "productOption_productType" (
-	"productOptionId"	INTEGER NOT NULL,
-	"productTypeId"	INTEGER NOT NULL,
-	PRIMARY KEY("productOptionId","productTypeId"),
-	FOREIGN KEY("productOptionId") REFERENCES "productOption"("id"),
-	FOREIGN KEY("productTypeId") REFERENCES "productType"("id")
-);
-CREATE TABLE IF NOT EXISTS "productType" (
+CREATE TABLE IF NOT EXISTS "product_tag" (
 	"id"	INTEGER NOT NULL,
-	"code"	TEXT,
+	"code"	TEXT NOT NULL,
+	"name"	TEXT,
 	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "product_tag_map" (
+	"product_id"	INTEGER NOT NULL,
+	"tag_id"	INTEGER NOT NULL,
+	PRIMARY KEY("product_id","tag_id"),
+	FOREIGN KEY("product_id") REFERENCES "product"("id"),
+	FOREIGN KEY("tag_id") REFERENCES "product_tag"("id")
+);
+CREATE TABLE IF NOT EXISTS "promo_code" (
+	"id"	INTEGER NOT NULL,
+	"referral_id"	INTEGER,
+	"code"	TEXT,
+	"discount"	INTEGER,
+	"min_purchase"	INTEGER,
+	"used_at"	TEXT,
+	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("referral_id") REFERENCES "referral"("id")
+);
+CREATE TABLE IF NOT EXISTS "referral" (
+	"id"	INTEGER NOT NULL,
+	"customer_id"	INTEGER,
+	"code"	TEXT,
+	"discount"	INTEGER,
+	"used_at"	TEXT,
+	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("customer_id") REFERENCES "customer"("id")
 );
 COMMIT;
