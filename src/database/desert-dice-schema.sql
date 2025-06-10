@@ -32,13 +32,15 @@ CREATE TABLE IF NOT EXISTS "customer_order" (
 CREATE TABLE IF NOT EXISTS "product" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"category_id"	INTEGER NOT NULL,
-	"collection_id"	INTEGER,
-	"name"	TEXT,
+	"collection_id"	TEXT,
+	"name"	BLOB,
 	"description"	TEXT,
 	"cover_image_path"	TEXT,
 	"cover_price"	INTEGER,
-	"is_featured"	INTEGER,
-	"is_sold"	INTEGER,
+	"is_featured"	INTEGER DEFAULT 0,
+	"is_sold"	INTEGER DEFAULT 0,
+	"is_unique"	INTEGER DEFAULT 0,
+	"reserved_at"	TEXT,
 	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("category_id") REFERENCES "product_category"("id"),
@@ -46,10 +48,11 @@ CREATE TABLE IF NOT EXISTS "product" (
 );
 CREATE TABLE IF NOT EXISTS "product_category" (
 	"id"	INTEGER NOT NULL,
-	"route"	TEXT,
+	"code"	TEXT,
 	"name"	TEXT,
+	"route"	TEXT,
 	"description"	TEXT,
-	"is_active"	INTEGER,
+	"is_active"	INTEGER DEFAULT 0,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
@@ -63,7 +66,7 @@ CREATE TABLE IF NOT EXISTS "product_image" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"product_id"	INTEGER NOT NULL,
 	"path"	TEXT,
-	"is_thumbnail"	INTEGER,
+	"is_thumbnail"	INTEGER DEFAULT 0,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("product_id") REFERENCES "product"("id")
@@ -74,8 +77,7 @@ CREATE TABLE IF NOT EXISTS "product_option" (
 	"name"	TEXT,
 	"price"	INTEGER,
 	"notes"	TEXT,
-	"has_chonk"	INTEGER,
-	"is_sold"	INTEGER,
+	"is_sold"	INTEGER DEFAULT 0,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("product_id") REFERENCES "product"("id")
@@ -97,9 +99,9 @@ CREATE TABLE IF NOT EXISTS "promo_code" (
 	"id"	INTEGER NOT NULL,
 	"referral_id"	INTEGER,
 	"code"	TEXT,
-	"discount"	INTEGER,
+	"discount"	INTEGER COLLATE NOCASE,
 	"min_purchase"	INTEGER,
-	"used_at"	TEXT,
+	"redeemed_at"	TEXT,
 	"created_at"	TEXT DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("referral_id") REFERENCES "referral"("id")

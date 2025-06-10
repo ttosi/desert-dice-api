@@ -6,8 +6,9 @@ const db = require("../database/database");
 router.get("/", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name, p.cover_image_path AS coverImagePath, p.cover_price AS coverPrice,
-        p.is_sold AS isSold, p.created_at AS createdAt
+        p.id, p.name, p.cover_image_path AS coverImagePath, 
+        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold,
+        p.created_at AS createdAt
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
      ORDER BY p.created_at DESC;`
@@ -21,7 +22,7 @@ router.get("/", async (req, res) => {
 router.get("/categories", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        id, route, name, description
+        id, code, route, name, description
      FROM product_category
      WHERE is_active = 1
      ORDER BY sequence;`
@@ -35,11 +36,12 @@ router.get("/categories", async (req, res) => {
 router.get("/category/:category", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name, p.cover_image_path AS coverImagePath, p.cover_price AS coverPrice,
-        p.is_sold AS isSold
+        p.id, p.name, p.cover_image_path AS coverImagePath,
+        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold,
+        pc.code, pc.description
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
-     WHERE NOT p.is_sold AND pc.route = ?
+     WHERE NOT p.is_sold AND pc.code = ?
      ORDER BY p.created_at DESC;`,
     [req.params.category]
   );
@@ -48,17 +50,13 @@ router.get("/category/:category", async (req, res) => {
   res.json(rows);
 });
 
-/* GET products by tag code */
+/* GET products by 1 or more tag codes */
 router.get("/tag/:tags", async (req, res) => {
   const tags = req.params.tags.split(",");
-
-  console.log(tags);
-  console.log(tags.map(() => "?").join(", "));
-
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name, p.cover_image_path as coverImagePath, p.cover_price AS coverPrice,
-        p.is_sold AS isSold
+        p.id, p.name, p.cover_image_path as coverImagePath,
+        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold
      FROM product p
      JOIN product_tag_map ptm ON ptm.product_id = p.id
      JOIN product_tag pt ON pt.id = ptm.tag_id
@@ -75,8 +73,8 @@ router.get("/tag/:tags", async (req, res) => {
 router.get("/featured", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name,p.cover_image_path AS coverImagePath, p.cover_price AS coverPrice,
-        p.is_sold AS isSold
+        p.id, p.name,p.cover_image_path AS coverImagePath,
+        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
      WHERE NOT p.is_sold AND p.is_featured = 1
@@ -92,8 +90,8 @@ router.get("/featured", async (req, res) => {
 router.get("/latest", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name,p.cover_image_path AS coverImagePath, p.cover_price AS coverPrice,
-        p.is_sold AS isSold
+        p.id, p.name,p.cover_image_path AS coverImagePath,
+        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
      WHERE NOT p.is_sold
@@ -109,8 +107,10 @@ router.get("/latest", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT 
-        p.id, p.name AS productName, p.description, p.cover_image_path, p.cover_price, p.created_at,
-        po.id AS productOptionId, po.name AS productOptionName, po.price AS optionPrice, po.is_sold AS isProductOptionSold, po.notes, po.has_chonk,
+        p.id, p.name AS productName, p.description, p.cover_image_path,
+        p.cover_price / 100, p.created_at, po.id AS productOptionId,
+        po.name AS productOptionName, po.price / 100 AS optionPrice,
+        po.is_sold AS isProductOptionSold, po.notes,
         pi.id as productImageId, pi.path, pi.is_thumbnail
      FROM product p
      LEFT JOIN product_option po ON p.id = po.product_id
@@ -124,7 +124,27 @@ router.get("/:id", async (req, res) => {
   res.json(transformProducts(rows)[0]);
 });
 
-router.post("/", async (req, res) => {});
+/* mark product as sold and set reserved datetime */
+router.post("/marksold", async (req, res) => {
+  // check if product is sold
+  const row = await db.fetchOne(`SELECT is_sold FROM product WHERE id = ?;`, [
+    req.body.id,
+  ]);
+
+  if (row.is_sold) {
+    res.status(409).json({ err: "reserved" });
+    return;
+  }
+
+  await db.run(
+    `UPDATE product
+     SET is_sold = 1, reserved_at = CURRENT_TIMESTAMP
+     where id = ?;`,
+    [req.body.id]
+  );
+
+  res.status(200);
+});
 
 /* Group product rows into structured product objects */
 const transformProducts = (rows) => {
@@ -158,7 +178,6 @@ const transformProducts = (rows) => {
           name: row.productOptionName,
           price: row.optionPrice,
           isSold: row.isProductOptionSold,
-          hasChonk: row.has_chonk,
           notes: row.notes,
         });
       }
