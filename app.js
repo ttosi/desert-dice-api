@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const { authorizeRequest } = require("./src/authorization");
-const { watcher } = require("./src/productWatcher");
 const products = require("./src/api/products");
 const customers = require("./src/api/customers");
 
