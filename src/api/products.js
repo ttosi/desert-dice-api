@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
-// const db = require("../database/database");
+const db = require("./database");
 // const db = require(path.join(global.appRoot, "src/database/database"));
-const path = require("path");
-const db = require(path.resolve(__dirname, "../database/database.js"));
+// const path = require("path");
+// const db = require(path.resolve(__dirname, "../database/database"));
+
+// console.log(path.resolve(__dirname, "../database/database"));
 
 /* GET all products */
 router.get("/", async (req, res) => {
