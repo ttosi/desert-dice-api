@@ -2,7 +2,7 @@ const sqlite = require("sqlite3");
 require("dotenv").config();
 
 const database = {
-  db: new sqlite.Database(`${__dirname}/${process.env.DB_FILEPATH}`),
+  db: new sqlite.Database(`${__dirname}/${process.env.SQLITE_DB_PATH}`),
   fetchAll: async (sql, params = []) => {
     return new Promise((resolve, reject) => {
       database.db.all(sql, params, (err, rows) => {

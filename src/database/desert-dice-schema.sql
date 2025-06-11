@@ -32,8 +32,9 @@ CREATE TABLE IF NOT EXISTS "customer_order" (
 CREATE TABLE IF NOT EXISTS "product" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"category_id"	INTEGER NOT NULL,
-	"collection_id"	TEXT,
-	"name"	BLOB,
+	"collection_id"	INTEGER,
+	"related_product_id"	INTEGER,
+	"name"	TEXT,
 	"description"	TEXT,
 	"cover_image_path"	TEXT,
 	"cover_price"	INTEGER,
@@ -77,7 +78,6 @@ CREATE TABLE IF NOT EXISTS "product_option" (
 	"name"	TEXT,
 	"price"	INTEGER,
 	"notes"	TEXT,
-	"is_sold"	INTEGER DEFAULT 0,
 	"sequence"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("product_id") REFERENCES "product"("id")

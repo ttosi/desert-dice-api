@@ -109,8 +109,7 @@ router.get("/:id", async (req, res) => {
     `SELECT 
         p.id, p.name AS productName, p.description, p.cover_image_path,
         p.cover_price / 100, p.created_at, po.id AS productOptionId,
-        po.name AS productOptionName, po.price / 100 AS optionPrice,
-        po.is_sold AS isProductOptionSold, po.notes,
+        po.name AS productOptionName, po.price / 100 AS optionPrice, po.notes
         pi.id as productImageId, pi.path, pi.is_thumbnail
      FROM product p
      LEFT JOIN product_option po ON p.id = po.product_id
@@ -124,29 +123,24 @@ router.get("/:id", async (req, res) => {
   res.json(transformProducts(rows)[0]);
 });
 
-/* mark product as sold and set reserved datetime */
+/* POST mark product as sold */
 router.post("/marksold", async (req, res) => {
-  // check if product is sold
   const row = await db.fetchOne(`SELECT is_sold FROM product WHERE id = ?;`, [
     req.body.id,
   ]);
 
   if (row.is_sold) {
-    res.status(409).json({ err: "reserved" });
+    res
+      .status(409)
+      .json({ err: "This item has been sold or is currently unavailable" });
     return;
   }
 
-  await db.run(
-    `UPDATE product
-     SET is_sold = 1, reserved_at = CURRENT_TIMESTAMP
-     where id = ?;`,
-    [req.body.id]
-  );
-
+  await db.run(`UPDATE product SET is_sold = 1 where id = ?;`, [req.body.id]);
   res.status(200);
 });
 
-/* Group product rows into structured product objects */
+/* Group product rows into structured js objects */
 const transformProducts = (rows) => {
   return Object.values(
     rows.reduce((acc, row) => {
@@ -164,14 +158,17 @@ const transformProducts = (rows) => {
         };
       }
 
+      // images
       if (!acc[row.id].images.includes(row.path) && !row.is_thumbnail) {
         acc[row.id].images.push(row.path);
       }
 
+      // thumbnails
       if (!acc[row.id].thumbnails.includes(row.path) && row.is_thumbnail) {
         acc[row.id].thumbnails.push(row.path);
       }
 
+      // product options
       if (!acc[row.id].options.find((o) => o.id === row.productOptionId)) {
         acc[row.id].options.push({
           id: row.productOptionId,
