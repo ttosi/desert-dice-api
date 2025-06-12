@@ -1,42 +1,75 @@
-const fs = require("fs");
+const fs = require("fs/promises");
 const path = require("path");
 const sharp = require("sharp");
+
 const { imageSizeFromFile } = require("image-size/fromFile");
 
-async function createThumbnails(srcDir, destDir, size = 200) {
-  // fs.mkdirSync(destDir, { recursive: true });
+const productId = 1;
+var productOptionId = 1;
+var sequence = 1;
 
-  const files = fs.readdirSync(srcDir);
+async function processFiles(dir, callback) {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
 
-  for (const file of files) {
-    // if (![".png"].includes(ext)) continue;
-    // const srcFile = `${srcDir}${file}`;
-    // const dimensions = await imageSizeFromFile(srcFile);
-    // console.log(file, dimensions.width, dimensions.height);
-    // const inputPath = path.join(srcDir, file);
-    // const filename = file.replace(".png", "");
-    // const outFile = `${srcDir}${filename}-thumbnail.png`;
-    // console.log(
-    //   `insert into productImage (productId, path, isThumbnail, sequence) values (1, 'dice/${filename}-thumbnail.png', 1, 1);`
-    // );
-    // console.log(outFile);
-    // const outputPath = path.join(
-    //   destDir,
-    //   `${file.replace(".png", "")}-thumbnail.png`
-    // );
-    // try {
-    //   await sharp(srcFile)
-    //     .resize(size, size, {
-    //       fit: "cover", // crop to fill the square
-    //       position: "center",
-    //     })
-    //     .toFile(outFile);
-    //   // console.log(`Created: ${outputPath}`);
-    // } catch (err) {
-    //   console.error(`Error processing ${file}: ${err.message}`);
-    // }
+  for (const entry of entries) {
+    const srcFilePath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      await processFiles(srcFilePath, callback); // recurse
+    } else {
+      // console.log(await getDimensions(srcFilePath));
+      // console.log(path.basename(srcFilePath));
+      // console.log(path.dirname(srcFilePath));
+
+      if (srcFilePath.includes("cover")) continue;
+
+      // console.log(
+      //   `INSERT INTO productImage (productOptionId, path, isThumbnail, sequence) VALUES (${productOptionId}, 'dice/${path.basename(
+      //     srcFilePath
+      //   )}', 0, ${sequence});`
+      // );
+
+      sequence++;
+
+      // console.log(srcFilePath);
+      await createThumbnail(srcFilePath);
+
+      // await callback(srcFilePath);
+    }
   }
 }
 
-// Example usage:
-createThumbnails("./public/images/dice/", "/public/images/dice", 200);
+const getDimensions = async (srcFilePath) => {
+  const dimensions = await imageSizeFromFile(srcFilePath);
+  return { width: dimensions.width, height: dimensions.height };
+};
+
+const createThumbnail = async (srcFilePath) => {
+  const outputPath = `${path.dirname(srcFilePath)}/${path
+    .basename(srcFilePath)
+    .replace(".png", "-thumbnail.png")}`;
+  // console.log(path.basename(srcFilePath));
+  // console.log(outputPath);
+
+  // console.log(srcFilePath);
+  // console.log(
+  //   `INSERT INTO productImage (productOptionId, path, isThumbnail, sequence) VALUES (${productOptionId}, 'dice/${path.basename(
+  //     outputPath
+  //   )}', 1, ${sequence});`
+  // );
+
+  try {
+    await sharp(srcFilePath)
+      .resize(200, 200, {
+        fit: "cover",
+        position: "center",
+      })
+      .toFile(outputPath);
+  } catch (err) {
+    console.error(`Error processing ${err.message}`);
+  }
+};
+
+// Usage:
+processFiles("../images/ocean_sky/", async (filePath) => {
+  // console.log("Processing file:", filePath);
+});
