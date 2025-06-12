@@ -1,9 +1,9 @@
-global.appRoot = __dirname;
-
 const express = require("express");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+// require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 
 const { authorizeRequest } = require("./src/authorization");
 const products = require("./src/api/products");
@@ -11,7 +11,6 @@ const customers = require("./src/api/customers");
 
 const router = express.Router();
 const app = express();
-require("dotenv").config();
 
 // var corsOptions = {
 //   origin: "http://localhost:5173",
@@ -19,6 +18,8 @@ require("dotenv").config();
 // };
 
 app.use("/images", express.static(`${__dirname}/public/images`));
+if (process.env.NODE_ENV === "staging" || process.env.NODE_ENV === "prod")
+  app.use(express.static(`${__dirname}/dist`));
 
 app.use(router);
 app.use(cors());
@@ -36,6 +37,11 @@ router.use(async (req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`API running on port ${port}`);
-});
+try {
+  app.listen(port, () => {
+    console.log(`API running on port ${port}`);
+  });
+} catch (err) {
+  console.error("Fatal startup error:", err);
+  process.exit(1);
+}

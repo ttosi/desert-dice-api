@@ -1,10 +1,13 @@
 const path = require("path");
 const sqlite = require("sqlite3");
-require("dotenv").config();
-console.log(path.join(__dirname, `${process.env.DATABASE_PATH}`));
+// require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
+
+const databasePath = path.resolve(__dirname, `${process.env.DATABASE_PATH}`);
+console.log("database loaded from:", databasePath);
 
 const database = {
-  db: new sqlite.Database(path.join(__dirname, `${process.env.DATABASE_PATH}`)),
+  db: new sqlite.Database(databasePath),
   fetchAll: async (sql, params = []) => {
     return new Promise((resolve, reject) => {
       database.db.all(sql, params, (err, rows) => {
