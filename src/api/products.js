@@ -1,6 +1,7 @@
+const path = require("path");
 const express = require("express");
 const router = express.Router();
-const db = require("./database");
+const db = require(path.join(__dirname, "../db/database"));
 // const db = require(path.join(global.appRoot, "src/database/database"));
 // const path = require("path");
 // const db = require(path.resolve(__dirname, "../database/database"));
