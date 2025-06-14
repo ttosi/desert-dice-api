@@ -8,18 +8,16 @@ BLUE="\e[34m"
 YELLOW="\e[33m"
 RESET="\e[0m"
 
-# move up 1 level for ui and api
 cd ..
 
-# get environment from args
+# read environment from args
 ENVIRONMENT=$1
 if [[ "$ENVIRONMENT" != "staging" && "$ENVIRONMENT" != "prod" ]]; then
   echo -e "${BOLD}${RED}Usage: ./deploy.sh [staging|production]${RESET}"
   exit 1
 fi
 
-ENV_FILE=".env.$ENVIRONMENT..."
-
+# confirm environment for deployment
 echo -e "${BOLD}${YELLOW}=====> DEPLOYING TO ${ENVIRONMENT} <=====${RESET}"
 read -rp "Continue? (y/N) " confirm
 if [[ "$confirm" =~ ^[Yy]$ ]]; then
@@ -29,7 +27,7 @@ else
   exit 1
 fi
 
-# create temp-deploy if not exists
+# create temp-deploy if not exists, empty it if it does
 if [ ! -d "temp-deploy" ]; then
 	mkdir temp-deploy
 else
@@ -41,11 +39,10 @@ echo -e "${BOLD}${GREEN}Building ui for ${ENVIRONMENT}..."
 cd ./desert-dice-ui && yarn build:$ENVIRONMENT && cd ..
 
 # copy local api files to temp-deploy
-# install -D ./desert-dice-api/src/api/* ./temp-deploy/api/
 echo "Copying api to temp deploy folder..."
 cp -R ./desert-dice-api/src/* ./temp-deploy/.
 cp ./desert-dice-api/app.js ./temp-deploy/
-sed -i 's|\.\/src\/|.\/|g' ./temp-deploy/app.js
+sed -i 's|\.\/src\/|.\/|g' ./temp-deploy/app.js # update module paths 
 cp ./desert-dice-api/.env.$ENVIRONMENT ./temp-deploy/.env
 cp ./desert-dice-api/package.json ./temp-deploy/.
 
@@ -54,21 +51,21 @@ echo -e "${BOLD}${BLUE}Copying files to server...${RESET}"
 rsync -avz -e "ssh -i ~/.ssh/ssh_hetzner" ./temp-deploy/ ttosi@5.78.41.98:~/sites/desertdiceco.com/$ENVIRONMENT
 rsync -avz -e "ssh -i ~/.ssh/ssh_hetzner" ./desert-dice-api/public/ ttosi@5.78.41.98:~/sites/desertdiceco.com/$ENVIRONMENT/public
 
-# install modules
+# install node modules
 echo -e "${BOLD}${BLUE}Installing node modules on server...${RESET}"
 ssh -i ~/.ssh/ssh_hetzner ttosi@5.78.41.98 "cd ~/sites/desertdiceco.com/"$ENVIRONMENT " && npm i"
 
-# start or restart pm2 desertdice instance
+# start or restart pm2 instance
 if ssh -i ~/.ssh/ssh_hetzner ttosi@5.78.41.98 "pm2 show desertdice-${ENVIRONMENT} 2>&1 | grep doesn\'t"; then
-  echo -e "${BOLD}${BLUE}pm2 ${ENVIRONMENT} instance does not exist, starting...${RESET}"
+  echo -e "${BOLD}${BLUE}Installing ${ENVIRONMENT} pm2 instance...${RESET}"
   ssh -i ~/.ssh/ssh_hetzner ttosi@5.78.41.98 "mkdir -p ~/sites/desertdiceco.com/${ENVIRONMENT}/logs"
   ssh -i ~/.ssh/ssh_hetzner ttosi@5.78.41.98 "pm2 start ~/sites/desertdiceco.com/${ENVIRONMENT}/app.js --name desertdice-${ENVIRONMENT} --output ~/sites/desertdiceco.com/${ENVIRONMENT}/logs/out.log --error ~/sites/desertdiceco.com/$ENVIRONMENT/logs/err.log && pm2 save"
 else
-  echo -e "${BOLD}${BLUE}${ENVIRONMENT} pm2 instance exists, resterting...${RESET}"
+  echo -e "${BOLD}${BLUE}Restarting ${ENVIRONMENT} pm2 instance...${RESET}"
   ssh -i ~/.ssh/ssh_hetzner ttosi@5.78.41.98 "pm2 restart desertdice-${ENVIRONMENT}"
 fi
 
-echo -e "${BOLD}${YELLOW}Cleaning up...${RESET}"
+echo -e "${BOLD}${YELLOW}Removing temp-deploy dir...${RESET}"
 rm -rf ./temp-deploy
 
-echo -e "${BOLD}${GREEN}Publish to ${ENVIRONMENT} complete.${RESET}"
+echo -e "${BOLD}${GREEN}Successfully published to ${ENVIRONMENT}.${RESET}"

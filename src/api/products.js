@@ -1,21 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const db = require("./database");
+const db = require("../database/database");
+const camelcaseKeys = require("camelcase-keys");
+const snakecaseKeys = require("snakecase-keys");
 
 /* GET all products */
 router.get("/", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name, p.cover_image_path AS coverImagePath, 
-        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold,
-        p.created_at AS createdAt
+        p.id, p.name, p.cover_image_path, 
+        p.cover_price / 100 AS cover_price, p.is_sold,
+        p.created_at
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
      ORDER BY p.created_at DESC;`
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(rows);
+  res.json(camelcaseKeys(rows));
 });
 
 /* GET product categories */
@@ -32,31 +34,31 @@ router.get("/categories", async (req, res) => {
   res.json(rows);
 });
 
-/* GET products by category slug */
+/* GET products by category */
 router.get("/category/:category", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name, p.cover_image_path AS coverImagePath,
-        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold,
+        p.id, p.name, p.cover_image_path,
+        p.cover_price / 100 AS cover_price, p.is_sold,
         pc.code, pc.description
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
-     WHERE NOT p.is_sold AND pc.code = ?
+     WHERE NOT p.is_sold AND p.reserved_at IS NULL AND pc.code = ?
      ORDER BY p.created_at DESC;`,
     [req.params.category]
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(rows);
+  res.json(camelcaseKeys(rows));
 });
 
-/* GET products by 1 or more tag codes */
+/* GET products by 1 or more tags */
 router.get("/tag/:tags", async (req, res) => {
   const tags = req.params.tags.split(",");
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name, p.cover_image_path as coverImagePath,
-        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold
+        p.id, p.name, p.cover_image_path,
+        p.cover_price / 100 AS cover_price, p.is_sold
      FROM product p
      JOIN product_tag_map ptm ON ptm.product_id = p.id
      JOIN product_tag pt ON pt.id = ptm.tag_id
@@ -66,15 +68,15 @@ router.get("/tag/:tags", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(rows);
+  res.json(camelcaseKeys(rows));
 });
 
 /* GET featured products */
 router.get("/featured", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name,p.cover_image_path AS coverImagePath,
-        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold
+        p.id, p.name, p.cover_image_path,
+        p.cover_price / 100 AS cover_price, p.is_sold
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
      WHERE NOT p.is_sold AND p.is_featured = 1
@@ -83,15 +85,15 @@ router.get("/featured", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(rows);
+  res.json(camelcaseKeys(rows));
 });
 
 /* GET 3 most recent products */
 router.get("/latest", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT
-        p.id, p.name,p.cover_image_path AS coverImagePath,
-        p.cover_price / 100 AS coverPrice, p.is_sold AS isSold
+        p.id, p.name, p.cover_image_path,
+        p.cover_price / 100 AS cover_price, p.is_sold
      FROM product p
      JOIN product_category pc ON pc.id = p.category_id
      WHERE NOT p.is_sold
@@ -100,17 +102,17 @@ router.get("/latest", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(rows);
+  res.json(camelcaseKeys(rows));
 });
 
 /* GET product by ID */
 router.get("/:id", async (req, res) => {
   const rows = await db.fetchAll(
     `SELECT 
-        p.id, p.name AS productName, p.description, p.cover_image_path,
-        p.cover_price / 100, p.created_at, po.id AS productOptionId,
-        po.name AS productOptionName, po.price / 100 AS optionPrice, po.notes,
-        pi.id as productImageId, pi.path, pi.is_thumbnail
+      p.id, p.name, p.description, p.cover_image_path,
+	    p.cover_price / 100 AS cover_price, p.created_at, po.id AS option_id,
+	    po.name AS option_name, po.price / 100 AS option_price, po.notes,
+	    pi.id as product_image_id, pi.path, pi.is_thumbnail
      FROM product p
      LEFT JOIN product_option po ON p.id = po.product_id
      LEFT JOIN product_image pi ON p.id = pi.product_id
@@ -120,7 +122,35 @@ router.get("/:id", async (req, res) => {
   );
 
   if (!rows?.length) return res.status(404).end();
-  res.json(transformProducts(rows)[0]);
+  res.json(camelcaseKeys(transformProducts(rows)[0]));
+});
+
+router.get("/isavailable/:id", async (req, res) => {
+  const row = await db.fetchOne(
+    `SELECT is_sold, reserved_at FROM product WHERE id = ?;`,
+    [req.params.id]
+  );
+
+  if (!row || row.is_sold || row.reserved_at) {
+    res.status(200).json({ available: false });
+    return;
+  }
+
+  res.status(200).json({ available: true });
+});
+
+/* PATCH update product */
+router.patch("/:id", async (req, res) => {
+  const props = Object.entries(snakecaseKeys(req.body));
+  const fields = props.map((p) => `${p[0]} = ?`).join(", ");
+  const values = props.map((p) => p[1]);
+
+  await db.run(
+    `UPDATE product SET ${fields} WHERE id = ${req.params.id};`,
+    values
+  );
+
+  res.status(200);
 });
 
 /* POST mark product as sold */
@@ -146,12 +176,7 @@ const transformProducts = (rows) => {
     rows.reduce((acc, row) => {
       if (!acc[row.id]) {
         acc[row.id] = {
-          id: row.id,
-          name: row.productName,
-          description: row.description,
-          coverImagePath: row.cover_image_path,
-          coverPrice: row.cover_price,
-          created: row.created_at,
+          ...row,
           images: [],
           thumbnails: [],
           options: [],
@@ -169,16 +194,14 @@ const transformProducts = (rows) => {
       }
 
       // product options
-      if (!acc[row.id].options.find((o) => o.id === row.productOptionId)) {
+      if (!acc[row.id].options.find((o) => o.id === row.option_id)) {
         acc[row.id].options.push({
-          id: row.productOptionId,
-          name: row.productOptionName,
-          price: row.optionPrice,
-          isSold: row.isProductOptionSold,
+          id: row.option_id,
+          name: row.option_name,
+          price: row.option_price,
           notes: row.notes,
         });
       }
-
       return acc;
     }, {})
   );

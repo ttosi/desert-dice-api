@@ -1,11 +1,10 @@
 const express = require("express");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-// require("dotenv").config();
 require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 
-const { authorizeRequest } = require("./src/authorization");
+const { authorizeRequest } = require("./src/services/authorization");
 const products = require("./src/api/products");
 const customers = require("./src/api/customers");
 
@@ -23,7 +22,7 @@ if (process.env.NODE_ENV === "staging" || process.env.NODE_ENV === "prod")
 
 app.use(router);
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 app.use(bodyParser.json());
 
 app.use("/api/products/", products);

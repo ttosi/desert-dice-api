@@ -12,6 +12,7 @@
     "build": ""
   },
   "dependencies": {
+    "camelcase-keys": "^7.0.2",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
@@ -21,6 +22,7 @@
     "image-size": "^2.0.2",
     "jsonwebtoken": "^9.0.2",
     "sharp": "^0.34.2",
+    "snakecase-keys": "^7.0.1",
     "sqlite3": "^5.1.7",
     "stripe": "^18.2.1"
   },
