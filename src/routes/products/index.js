@@ -4,7 +4,6 @@ const router = express.Router();
 router.get("/", require("./getAll"));
 router.get("/categories", require("./getCategories"));
 router.get("/category/:category", require("./getByCategory"));
-// router.get("/category/:category/tags", require("./geyByCategoryAndTags"));
 router.get("/category/:category/tags", require("./getTagsByCategory"));
 router.get("/tag/:tags", require("./getByTags"));
 router.get("/featured", require("./getFeatured"));

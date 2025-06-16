@@ -1,8 +1,8 @@
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const express = require("express");
 // const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 
 const { authorizeRequest } = require("./src/services/authorization");
 // const products = require("./src/api/products");
@@ -25,8 +25,8 @@ app.use(cors());
 // app.use(helmet());
 app.use(bodyParser.json());
 
-// app.use("./routes/products", require("./src/api/products"));
 app.use("/api/products", require("./src/routes/products"));
+app.use("/api", require("./src/routes/checkout"));
 // app.use("/api/customers/", customers);
 
 router.use(async (req, res, next) => {
