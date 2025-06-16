@@ -206,5 +206,3 @@ const transformProducts = (rows) => {
     }, {})
   );
 };
-
-module.exports = router;

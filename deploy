@@ -43,7 +43,7 @@ echo "Copying api to temp deploy folder..."
 cp -R ./desert-dice-api/src/* ./temp-deploy/.
 cp ./desert-dice-api/app.js ./temp-deploy/
 sed -i 's|\.\/src\/|.\/|g' ./temp-deploy/app.js # update module paths 
-cp ./desert-dice-api/.env.$ENVIRONMENT ./temp-deploy/.env
+cp ./desert-dice-api/.env.$ENVIRONMENT ./temp-deploy/.env # copy .env config
 cp ./desert-dice-api/package.json ./temp-deploy/.
 
 # copy site files from local to remote
@@ -68,4 +68,4 @@ fi
 echo -e "${BOLD}${YELLOW}Removing temp-deploy dir...${RESET}"
 rm -rf ./temp-deploy
 
-echo -e "${BOLD}${GREEN}Successfully published to ${ENVIRONMENT}.${RESET}"
+echo -e "${BOLD}${GREEN}Successfully published ${ENVIRONMENT}.${RESET}"
