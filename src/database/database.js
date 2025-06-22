@@ -1,6 +1,7 @@
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const path = require("path");
 const sqlite = require("sqlite3");
-require("dotenv").config({ path: require("path").join(__dirname, ".env") });
+const snakecaseKeys = require("snakecase-keys");
 
 const databasePath = path.resolve(__dirname, `${process.env.DATABASE_PATH}`);
 console.log("database loaded from:", databasePath);
@@ -25,11 +26,26 @@ const database = {
   },
   run: async (sql, params = []) => {
     return new Promise((resolve, reject) => {
-      database.db.run(sql, params, (err, res) => {
+      database.db.run(sql, params, function (err, res) {
         if (err) reject(err);
-        resolve(res);
+        resolve(this.lastID);
       });
     });
+  },
+  objectToInsertFields(obj) {
+    const props = Object.entries(snakecaseKeys(obj));
+    const fields = props.map((p) => `${p[0]}`).join(", ");
+    const params = props.map((p) => "?").join(", ");
+    const values = props.map((p) => p[1]);
+
+    return { fields, params, values };
+  },
+  objectToUpdateFields() {
+    const props = Object.entries(snakecaseKeys(obj));
+    const fields = props.map((p) => `${p[0]} = ?`).join(", ");
+    const values = props.map((p) => p[1]);
+
+    return { fields, values };
   },
 };
 

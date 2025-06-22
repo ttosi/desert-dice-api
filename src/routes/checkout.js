@@ -5,7 +5,7 @@ const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 router.post("/create-payment-intent", async (req, res) => {
-  const { amount } = req.body; // amount in cents
+  const { amount } = req.body;
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,

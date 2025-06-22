@@ -42,6 +42,7 @@ cd ./desert-dice-ui && yarn build:$ENVIRONMENT && cd ..
 echo "Copying api to temp deploy folder..."
 cp -R ./desert-dice-api/src/* ./temp-deploy/.
 cp ./desert-dice-api/app.js ./temp-deploy/
+
 sed -i 's|\.\/src\/|.\/|g' ./temp-deploy/app.js # update module paths 
 cp ./desert-dice-api/.env.$ENVIRONMENT ./temp-deploy/.env # copy .env config
 cp ./desert-dice-api/package.json ./temp-deploy/.

@@ -1,6 +1,6 @@
+require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 
 const authorizeRequest = async (res, token) => {
   if (!token) return;
