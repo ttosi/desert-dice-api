@@ -41,6 +41,10 @@ desert-dice-api/
 
 ---
 
+## Database
+
+Implemented using SQLite3. View database Diagram [here](https://github.com/ttosi/desert-dice-api/blob/master/desert-dice-schema.svg).
+
 ## 🔐 Environment Variables
 
 File: `.env.[dev|staging|dev]`
