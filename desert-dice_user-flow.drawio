@@ -1,0 +1,160 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="27.1.6">
+  <diagram name="Page-1" id="vbGORmb4k6xbofFYrvF7">
+    <mxGraphModel dx="992" dy="588" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-1" target="T6I3gG0kRrgbXN8CNnat-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-1" value="&lt;b&gt;&lt;u&gt;Browse Products&lt;/u&gt;&lt;/b&gt;&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;User can browse products by selecting different categories. If no products in a category, it display no products available. In each category, the user can filter products by &quot;tags&quot;. One or more filter can be selected. If no filters are selected, all products in that category are shown.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="200" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-2" target="T6I3gG0kRrgbXN8CNnat-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-2" value="&lt;b&gt;&lt;u&gt;View Product Details&lt;/u&gt;&lt;/b&gt;&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;Clicking a product brings up the product&#39;s details. There should be: Name, Description, Price and options. When an option is changed, the price should reflect the option price. The carousel should behave as you&#39;d expect a carousel to.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="88" width="200" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-5" target="T6I3gG0kRrgbXN8CNnat-10">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-11" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-6">
+          <mxGeometry x="0.1094" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-5" target="T6I3gG0kRrgbXN8CNnat-27">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="790" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-26" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-25">
+          <mxGeometry x="-0.0294" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-5" value="Is product already&lt;div&gt;in someone else&#39;s cart?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="122" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-10" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;The user is notified that someone else has already bought or reserved it (is in another cart) the product. OK button bring them to the products page.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="370" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.468;entryY=0.983;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-10" target="T6I3gG0kRrgbXN8CNnat-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-17" target="T6I3gG0kRrgbXN8CNnat-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-17" target="T6I3gG0kRrgbXN8CNnat-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-34" value="Delete button clicked" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-33">
+          <mxGeometry x="-0.016" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-17" target="T6I3gG0kRrgbXN8CNnat-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-38" value="Checkout&lt;div&gt;Button&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-37">
+          <mxGeometry x="-0.0502" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-17" value="&lt;b&gt;&lt;u&gt;Cart&lt;/u&gt;&lt;/b&gt;&lt;br&gt;&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;The cart lists products in cart. Product card shows: Name, selected option, and price. A trashcan icon is in upper right. The Order Summary shows: cart subtotal, shipping (is flat rate) and total.&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Checkout button is disabled unless 1 or more products in their cart.&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1277" y="114" width="200" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-18" value="&lt;b&gt;&lt;u&gt;Add Product to Cart&lt;/u&gt;&lt;/b&gt;&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;W&amp;nbsp;&amp;nbsp;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2610" y="590" width="200" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-19" target="T6I3gG0kRrgbXN8CNnat-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="120" />
+              <mxPoint x="1100" y="60" />
+              <mxPoint x="140" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-22" value="Continue Shopping" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-20">
+          <mxGeometry x="-0.9151" y="4" relative="1" as="geometry">
+            <mxPoint x="4" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-19" target="T6I3gG0kRrgbXN8CNnat-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-31" value="Go to Cart" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-29">
+          <mxGeometry x="-0.1232" y="3" relative="1" as="geometry">
+            <mxPoint x="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-19" value="Modal shown with&lt;div&gt;&amp;nbsp;option to Continue&lt;/div&gt;&lt;div&gt;Shopping or&amp;nbsp;&lt;/div&gt;&lt;div&gt;Go to Cart&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1016" y="120" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-27" target="T6I3gG0kRrgbXN8CNnat-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-27" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Cart icon in the upper right shows the correct number of items in the their cart. &lt;/font&gt;&lt;font style=&quot;color: light-dark(rgb(153, 76, 0), rgb(255, 255, 255));&quot; face=&quot;Courier New&quot;&gt;Database: product table -&amp;gt; is_sold = 0, is_reserved = datetime (UTC). Local Storage: cart value reflects items in cart.&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="768" y="127.5" width="210" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-32" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;Cart icon reflect the correct number of items in the cart.&amp;nbsp;&lt;font style=&quot;color: rgb(153, 76, 0);&quot; face=&quot;Courier New&quot;&gt;Database: product table -&amp;gt; is_sold = 0, is_reserved = NULL. Local Storage: cart value reflects items in cart. If none it should be []&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1257" y="360" width="244" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-36" target="T6I3gG0kRrgbXN8CNnat-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-41" value="Next button&lt;div&gt;clicked&lt;/div&gt;&lt;div&gt;on Email step&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-40">
+          <mxGeometry x="-0.1041" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-36" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;Shows 4 steps: Email Address, Shipping Address, Payment Information, Confirmation. It defaults to the Email Address step. Only the active step is visible. Step 1: user enters email address.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="137.25" width="200" height="133.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-43" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-39" target="T6I3gG0kRrgbXN8CNnat-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-44" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-43">
+          <mxGeometry x="-0.3108" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-39" target="T6I3gG0kRrgbXN8CNnat-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-47" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="T6I3gG0kRrgbXN8CNnat-46">
+          <mxGeometry x="-0.5766" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-39" value="Does user&lt;div&gt;exist?&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1890" y="143.5" width="121" height="121" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-42" target="T6I3gG0kRrgbXN8CNnat-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-42" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;Move to step 2 with last used address prefilled. &lt;font style=&quot;color: rgb(153, 76, 0);&quot; face=&quot;Courier New&quot;&gt;Database: customer table -&amp;gt; verify that fields in database = values in address step&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2070" y="140.75" width="170" height="127.25" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="T6I3gG0kRrgbXN8CNnat-45" target="T6I3gG0kRrgbXN8CNnat-48">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2290" y="380" />
+              <mxPoint x="2290" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-45" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;Step 2: enter address information. All fields are required. Clicking &quot;Next&quot; shows error if field is missing. When valid, &quot;Next&quot; moves to step 3.&amp;nbsp;&lt;span style=&quot;color: rgb(153, 76, 0); font-family: &amp;quot;Courier New&amp;quot;; background-color: transparent;&quot;&gt;Database:&lt;/span&gt;&lt;span style=&quot;color: rgb(153, 76, 0); font-family: &amp;quot;Courier New&amp;quot;; background-color: transparent;&quot;&gt;&amp;nbsp;customer Table -&amp;gt; values should match the name &amp;amp; address entered.&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2070" y="300" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="T6I3gG0kRrgbXN8CNnat-48" value="&lt;div style=&quot;text-align: left; padding-left: 10px; padding-right: 10px;&quot;&gt;Step 3: customer enters credit card information. All information must be validated before moving to step 4.&lt;span style=&quot;color: rgb(153, 76, 0); font-family: &amp;quot;Courier New&amp;quot;; background-color: transparent;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2340" y="190" width="200" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

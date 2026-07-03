@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 app.use("/api/products", require("./src/routes/products"));
 app.use("/api", require("./src/routes/checkout"));
-app.use("/api", require("./src/routes/customers"));
+// app.use("/api", require("./src/routes/customers"));
 
 router.use(async (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -43,15 +43,18 @@ router.use(async (req, res, next) => {
   next();
 });
 
-const seed = require("./src/database/seed");
-(async () => {
-  await seed.createProduct({
-    name: "prod 1",
-    description: "",
-    coverImagePath: "",
-    coverPrice: 4000,
-  });
-})();
+// const seed = require("./src/database/seed");
+// (async () => {
+//   await seed.createProduct({
+//     name: "prod 1",
+//     description: "",
+//     coverImagePath: "",
+//     coverPrice: 4000,
+//   });
+// })();
+
+// const email = require("./src/services/email");
+// email.send();
 
 const port = process.env.PORT || 3000;
 try {

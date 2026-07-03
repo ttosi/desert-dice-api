@@ -15,7 +15,7 @@ const to = {
 
 const from = {
   email: "orders@desertdiceco.com",
-  name: "Desert Dice COmpany",
+  name: "Desert Dice Company",
 };
 
 const html = orderConfirmation({

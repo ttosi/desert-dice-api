@@ -17,6 +17,9 @@ module.exports = async (req, res) => {
     [req.params.category]
   );
 
+  console.log(req.params.category);
+  console.log(rows);
+
   if (!rows?.length) return res.status(404).end();
   res.json(camelcaseKeys(transformProducts(rows)));
 };
